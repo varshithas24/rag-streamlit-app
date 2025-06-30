@@ -8,3 +8,4 @@ langchain-google-genai==2.0.10
 langchain-text-splitters==0.3.8
 faiss-cpu
 pypdf
+pdfminer.six
