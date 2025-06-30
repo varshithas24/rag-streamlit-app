@@ -1,110 +1,129 @@
+# 📘 PDF Q&A with RAG (Gemini + FAISS + Streamlit)
 
-# PDF Q&A with RAG (Retrieval-Augmented Generation)
+This is a Streamlit-based web application that allows users to upload PDF files and ask questions based on their content using **Retrieval-Augmented Generation (RAG)** with **Google's Gemini 2.0 Flash model** and **FAISS** vector storage.
 
-A Streamlit-based application that enables intelligent question-answering over PDF documents using Google's Gemini AI and persistent vector storage with Chroma DB.
+---
 
-## Features
+## 🚀 Features
 
-- **PDF Upload & Processing**: Upload PDF documents and automatically extract text content
-- **Intelligent Text Chunking**: Uses RecursiveCharacterTextSplitter for optimal document segmentation
-- **Persistent Vector Storage**: Chroma DB with file-based persistence to avoid reprocessing
-- **Advanced Embeddings**: Google's text-embedding-004 model for high-quality vector representations
-- **Smart Retrieval**: Similarity-based document retrieval with configurable parameters
-- **Gemini 2.0 Flash Integration**: Powered by Google's latest language model for accurate responses
-- **Optimized Performance**: Hash-based caching system for vectorstore reuse
+- ✅ **PDF Upload**: Upload any text-based PDF file.
+- 🔍 **Text Chunking**: Splits the PDF into context chunks for better semantic search.
+- 🧠 **Embeddings**: Uses Google's `text-embedding-004` model for vector representation.
+- 🔎 **FAISS Vector Store**: In-memory vector database optimized for Streamlit Cloud deployment.
+- 💬 **Gemini 2.0 Flash**: Generates context-aware answers based on retrieved PDF content.
+- ⚡ **Fast Response**: Optimized for quick Q&A interactions.
 
-## Project Structure
+---
+
+## 🧠 How It Works
+
+1. **PDF Upload**: Users upload a text-based PDF.
+2. **Text Extraction**: The PDF is split into manageable chunks using `RecursiveCharacterTextSplitter`.
+3. **Embedding**: Each chunk is embedded using Google’s `text-embedding-004`.
+4. **Retrieval**: Relevant chunks are retrieved using **FAISS** based on the user’s question.
+5. **Generation**: The chunks + question are passed to **Gemini 2.0 Flash** to generate the answer.
+
+---
+
+## 🛠️ Tech Stack
+
+- `Streamlit` – Frontend for interactive UI
+- `LangChain` – RAG pipeline and document management
+- `GoogleGenerativeAI` – Gemini 2.0 Flash + Embedding model
+- `FAISS` – Vector similarity search engine
+- `PyPDFLoader` – Extracts text from PDF files
+- `dotenv` – Manages API keys securely
+
+---
+
+## 📂 Project Structure
 
 ```
-├── rag.py          # Main Streamlit application
-├── .env            # Environment variables (API keys)
-├── temp_pdf/       # Temporary PDF storage (auto-created)
-└── db_persist/     # Persistent vector databases (auto-created)
+├── rag.py               # Main Streamlit app
+├── requirements.txt     # Python dependencies
+├── .env                 # Contains your Google API key (not committed)
+├── temp_pdf/            # Temp folder for uploaded PDFs
 ```
 
-## Prerequisites
+---
 
-- Python 3.8+
-- Google AI API Key (from Google AI Studio)
+## ✅ Prerequisites
 
-## Installation
+- Python 3.8 or later
+- Google API Key for [Generative AI](https://aistudio.google.com/app/apikey)
 
-1. **Install required packages**
+---
+
+## 🔧 Installation
+
+1. **Clone the repository**
    ```bash
-   pip install streamlit python-dotenv
-   pip install langchain==0.3.25
-   pip install langchain-chroma==0.2.4
-   pip install langchain-community==0.3.24
-   pip install langchain-core==0.3.60
-   pip install langchain-experimental==0.3.4
-   pip install langchain-google-genai==2.0.10
-   pip install langchain-text-splitters==0.3.8
+   git clone https://github.com/your-username/pdf-qna-gemini.git
+   cd pdf-qna-gemini
    ```
 
-2. **Set up environment variables**
-   
-   Create a `.env` file in the root directory:
-   ```env
-   GOOGLE_API_KEY=your_google_ai_api_key_here
-   ```
-   
-   To get your Google AI API key:
-   - Visit [Google AI Studio](https://aistudio.google.com/)
-   - Create an account or sign in
-   - Generate an API key
-   - Copy the key to your `.env` file
-
-## Usage
-
-1. **Run the application**
+2. **Install dependencies**
    ```bash
-   python -m streamlit run rag.py
+   pip install -r requirements.txt
    ```
 
-2. **Using the application**
-   - Open your browser and navigate to the displayed local URL (typically `http://localhost:8501`)
-   - Upload a PDF document using the file uploader
-   - Wait for the document to be processed and vectorized
-   - Ask questions about the content in the text input field
-   - Get intelligent, context-aware answers powered by Gemini AI
+3. **Add your API key to a `.env` file**
+   ```
+   GOOGLE_API_KEY="your_real_api_key_here"
+   ```
 
-## How It Works
+---
 
-1. **Document Processing**: PDF files are loaded and split into manageable chunks using RecursiveCharacterTextSplitter
-2. **Vectorization**: Text chunks are converted to embeddings using Google's text-embedding-004 model
-3. **Storage**: Vectors are stored in Chroma DB with persistence based on file hash for efficient reuse
-4. **Retrieval**: When a question is asked, the most relevant document chunks are retrieved using similarity search
-5. **Generation**: The retrieved context and question are sent to Gemini 2.0 Flash for answer generation
+## ▶️ Run the App Locally
 
-## Configuration Options
+```bash
+streamlit run rag.py
+```
 
-You can modify these parameters in `rag.py`:
+---
 
-- `chunk_size=1000`: Size of text chunks for processing
-- `chunk_overlap=100`: Overlap between consecutive chunks
-- `search_kwargs={"k": 8}`: Number of similar documents to retrieve
-- `temperature=0.3`: Controls randomness in AI responses (0.0 = deterministic, 1.0 = creative)
+## 🌐 Deploy on Streamlit Cloud
 
-## Dependencies
+1. Push your project to GitHub.
+2. Go to [Streamlit Cloud](https://streamlit.io/cloud).
+3. Create a new app and select your repo.
+4. Set your `GOOGLE_API_KEY` in **Secrets** (Settings > Secrets):
+   ```
+   GOOGLE_API_KEY = "your_real_api_key_here"
+   ```
 
-- **streamlit**: Web application framework
-- **langchain**: LLM application framework
-- **langchain-google-genai**: Google AI integration
-- **langchain-chroma**: Vector database integration
-- **langchain-community**: Community tools and loaders
-- **python-dotenv**: Environment variable management
+---
 
-## Performance Features
+## 🧪 Example Use Case
 
-- **Hash-based Caching**: Each PDF gets a unique vectorstore based on its MD5 hash
-- **Persistent Storage**: Vectorstores are saved to disk and reused for identical files
-- **Efficient Retrieval**: Only the most relevant chunks are used for answer generation
+- Upload a PDF like a research paper or study notes.
+- Ask questions like:
+  - "What is the main topic?"
+  - "List the key findings"
+  - "What are the symptoms of diabetes?"
+- Get direct, context-aware answers in seconds.
 
-## Troubleshooting
+---
 
-**Common Issues:**
+## 📈 Future Improvements
 
-1. **API Key Error**: Ensure your `GOOGLE_API_KEY` is correctly set in the `.env` file
-2. **Module Import Error**: Make sure all dependencies are installed with the exact versions specified
-3. **File Upload Issues**: Check that you're uploading valid PDF files only
-4. **Slow Processing**: Large PDFs may take time to process initially; subsequent queries will be faster due to caching
+- Persistent vector DB for session reuse
+- OCR support for scanned PDFs
+- Support for multiple PDFs
+- Multi-language predictions
+- Document summarization and export options
+
+---
+
+## 📄 License
+
+This project is open-source and free to use under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Acknowledgments
+
+- [Google Generative AI](https://aistudio.google.com/)
+- [LangChain](https://www.langchain.com/)
+- [FAISS](https://github.com/facebookresearch/faiss)
+- [Streamlit](https://streamlit.io/)
