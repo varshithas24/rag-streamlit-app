@@ -11,7 +11,7 @@ import os
 
 load_dotenv()
 
-st.title("📘 PDF Q&A – Gemini RAG (FAISS)")
+st.title("📘 PDF Q&A – Using Gemini RAG and FAISS")
 
 pdf_file = st.file_uploader("Upload a PDF (must contain selectable text)", type="pdf")
 
