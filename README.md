@@ -115,10 +115,9 @@ streamlit run rag.py
 
 ---
 
-## 📄 License
+## 📄 Web Link
 
-This project is open-source and free to use under the [MIT License](LICENSE).
-
+https://rag-app-gemini-sv.streamlit.app/
 ---
 
 ## 🤝 Acknowledgments
